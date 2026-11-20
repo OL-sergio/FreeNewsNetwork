@@ -15,6 +15,24 @@ function getApiKey() {
   return apiKey;
 }
 
+async function getNewsByCategory(category = 'business') {
+  const apiKey = getApiKey();
+
+  const response = await axios.get(newsApiUrl, {
+    params: {
+      country: 'us',
+      category,
+      apiKey,
+    },
+    timeout: 10000,
+  });
+
+  return {
+    ...response.data,
+    articles: Array.isArray(response.data.articles) ? response.data.articles.slice(0, 8) : [],
+  };
+}
+
 async function getTopHeadlines() {
   const apiKey = getApiKey();
 
@@ -37,10 +55,9 @@ async function getPopularNews() {
 
   const response = await axios.get(popularNewsApiUrl, {
     params: {
-      q: 'apple',
+      q: 'us',
       from: '2026-11-18',
       to: '2026-11-18',
-      sortBy: 'popularity',
       apiKey,
     },
     timeout: 10000,
@@ -55,4 +72,5 @@ async function getPopularNews() {
 module.exports = {
   getTopHeadlines,
   getPopularNews,
+  getNewsByCategory,
 };

@@ -10,11 +10,15 @@
           <svg class="bi me-3" width="40" height="32" role="img" aria-label="Bootstrap">
             <use xlink:href="#bootstrap"></use>
           </svg>
-          <span class="fs-4">Popular News</span>
+          <span class="fs-4">Filter or News</span>
         </a>
       </h1>
     </div>
     <div>
+
+     
+      <!-- TODO: Add view all to filter news -->
+
       <div
         class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
       >
@@ -26,14 +30,43 @@
             <use xlink:href="#bootstrap"></use>
           </svg>
         </a>
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="#" class="nav-link px-2 link-warning">all</a></li>
-          <li><a href="#" class="nav-link px-2 link-body-emphasis">add filter</a></li>
-          <li><a href="#" class="nav-link px-2 link-body-emphasis">add filter</a></li>
-          <li><a href="#" class="nav-link px-2 link-body-emphasis">add filter</a></li>
-          <li><a href="#" class="nav-link px-2 link-body-emphasis">add filter</a></li>
-          <li><a href="#" class="nav-link px-2 link-body-emphasis">add filter</a></li>
-          <li><a href="#" class="nav-link px-2 link-body-emphasis">add filter</a></li>
+        <ul
+          class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+          id="newsFilters"
+          aria-label="News categories"
+        >
+          <li>
+            <a href="#" class="nav-link px-2 link-warning active" data-category="business"
+              >View all</a
+            >
+          </li>
+          <li>
+            <a href="#" class="nav-link px-2 link-body-emphasis active" data-category="business"
+              >Business</a
+            >
+          </li>
+          <li>
+            <a href="#" class="nav-link px-2 link-body-emphasis" data-category="entertainment"
+              >Entertainment</a
+            >
+          </li>
+          <li>
+            <a href="#" class="nav-link px-2 link-body-emphasis" data-category="general">General</a>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-2 link-body-emphasis" data-category="health">Health</a>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-2 link-body-emphasis" data-category="science">Science</a>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-2 link-body-emphasis" data-category="sports">Sports</a>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-2 link-body-emphasis" data-category="technology"
+              >Technology</a
+            >
+          </li>
         </ul>
         <div class="text-end me-4">
           <h6>View all</h6>
@@ -41,19 +74,23 @@
       </div>
     </div>
     <div class="row mb-2 m-3 ps-4">
-      <div class="col-md-4">
+      <div class="col-md-12">
         <div
-          class="row g-0 border rounded overflow-hidden flex-md-column-reverse mb-4 shadow-sm h-md-250 position-relative"
+          id="newsCards"
+          class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 align-items-stretch mb-4"
         >
           <div class="col p-4 d-flex flex-column position-static">
             <strong class="d-inline-block mb-2 text-primary-emphasis">World</strong>
-            <h3 class="mb-0">Featured post</h3>
-            <div class="mb-1 text-body-secondary">Nov 12</div>
-            <p class="card-text mb-auto">
+            <h3 class="my-1">Featured post</h3>
+            <div class="my-1 text-body-secondary">Nov 12</div>
+            <p class="card-text my-2 mb-auto">
               This is a wider card with supporting text below as a natural lead-in to additional
               content.
             </p>
-            <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
+            <a
+              href="#"
+              class="icon-link link-dark link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover my-3"
+            >
               Continue reading
               <svg class="bi" aria-hidden="true"><use xlink:href="#chevron-right"></use></svg>
             </a>
@@ -92,6 +129,7 @@
         </div>
       </div>
     </div>
+     <!-- TODO: Add the most important news section  -->
     <div class="p-4 p-md-5 my-4 text-body-emphasis bg-body-secondary">
       <div
         class="px-0 m-0"
@@ -140,7 +178,10 @@
       <h1 class="fw-bold mt-4 pt-5">Most viewed news</h1>
     </div>
 
-    <div id="newsCards" class="row row-cols-1 row-cols-lg-3 align-items-stretch p-2 g-4 py-5">
+    <div
+      id="mostViewedNewsCards"
+      class="row row-cols-1 row-cols-lg-3 align-items-stretch p-2 g-4 py-5"
+    >
       <div class="col">
         <div
           class="card card-cover overflow-hidden text-bg-dark rounded-3 shadow-lg"
@@ -165,8 +206,8 @@
             <ul class="d-flex list-unstyled my-2 pb-4">
               <li class="col align-items-start">
                 <h6 style="line-height: 1.5rem; font-size: 0.9rem">
-                  California California California California California California California
-                  California California California California California California
+                  Multiple lines of text that form the lede, informing new readers quickly and efficiently
+          about what’s most interesting in this post’s contents.
                 </h6>
               </li>
             </ul>
@@ -197,9 +238,8 @@
             <ul class="d-flex list-unstyled my-2 pb-4">
               <li class="col align-items-start">
                 <h6 style="line-height: 1.5rem; font-size: 0.9rem">
-                  California California California California California California California
-                  California California California California California California
-                </h6>
+                   Multiple lines of text that form the lede, informing new readers quickly and efficiently
+          about what’s most interesting in this post’s contents.
               </li>
             </ul>
           </div>
@@ -229,8 +269,8 @@
             <ul class="d-flex list-unstyled my-2 pb-4">
               <li class="col align-items-start">
                 <h6 style="line-height: 1.5rem; font-size: 0.9rem">
-                  California California California California California California California
-                  California California California California California California
+                  Multiple lines of text that form the lede, informing new readers quickly and efficiently
+          about what’s most interesting in this post’s contents.
                 </h6>
               </li>
             </ul>

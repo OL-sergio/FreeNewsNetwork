@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchBtn = document.getElementById('searchBtn');
   const searchInput = document.getElementById('searchInput');
   const newsCards = document.getElementById('newsCards');
+  const mostViewedNewsCards = document.getElementById('mostViewedNewsCards');
+  const newsFilters = document.getElementById('newsFilters');
   const popularNewsCarousel = document.querySelector('#myCarousel .carousel-inner');
 
   if (searchForm && searchBtn && searchInput) {
@@ -29,15 +31,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (newsCards) {
-    loadNews(newsCards);
+    loadNews(newsCards, 'business');
+  }
+
+  if (mostViewedNewsCards) {
+    loadPopularNews(mostViewedNewsCards, createNewsCard);
+  }
+
+  if (newsFilters && newsCards) {
+    newsFilters.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-category]');
+      if (!button) return;
+      event.preventDefault();
+
+      newsFilters.querySelectorAll('[data-category]').forEach((filter) => {
+        filter.classList.toggle('active', filter === button);
+        filter.classList.toggle('btn-warning', filter === button);
+        filter.classList.toggle('btn-outline-warning', filter !== button);
+      });
+      loadNews(newsCards, button.dataset.category);
+    });
   }
 
   if (popularNewsCarousel) {
-    loadPopularNews(popularNewsCarousel);
+    loadPopularNews(popularNewsCarousel, createCarouselSlide);
   }
 });
 
-async function loadPopularNews(carousel) {
+async function loadPopularNews(container, renderArticle) {
   try {
     const response = await fetch('/api/news/popular');
     const news = await response.json();
@@ -47,7 +68,7 @@ async function loadPopularNews(carousel) {
     }
 
     const articles = Array.isArray(news.articles) ? news.articles.slice(0, 3) : [];
-    carousel.replaceChildren(...articles.map(createCarouselSlide));
+    container.replaceChildren(...articles.map(renderArticle));
   } catch (error) {
     console.error('Unable to load popular news:', error);
   }
@@ -85,11 +106,11 @@ function createCarouselSlide(article, index) {
   limitTextToTwoLines(description);
 
   const link = document.createElement('a');
-  link.className = 'd-block mt-4 text-start text-decoration-none';
+  link.className = 'd-block mt-4 text-start link-light link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover';
   link.href = article.url || '#';
   link.target = '_blank';
   link.rel = 'noopener noreferrer';
-  link.textContent = 'Read article';
+  link.textContent = 'Read more';
 
   caption.append(source, title, description, link);
   container.append(caption);
@@ -97,16 +118,20 @@ function createCarouselSlide(article, index) {
   return slide;
 }
 
-async function loadNews(newsCards) {
+async function loadNews(newsCards, category) {
   try {
-    const response = await fetch('/api/news');
+    const endpoint = category === 'popular'
+      ? '/api/news/popular'
+      : `/api/news/category?category=${encodeURIComponent(category)}`;
+    const response = await fetch(endpoint);
     const news = await response.json();
 
     if (!response.ok) {
       throw new Error(news.message || 'Unable to load news');
     }
 
-    const articles = Array.isArray(news.articles) ? news.articles.slice(0, 6) : [];
+    const articleLimit = category === 'popular' ? 3 : 8;
+    const articles = Array.isArray(news.articles) ? news.articles.slice(0, articleLimit) : [];
     newsCards.replaceChildren(...articles.map(createNewsCard));
   } catch (error) {
     console.error('Unable to load news:', error);
@@ -115,14 +140,14 @@ async function loadNews(newsCards) {
 
 function createNewsCard(article) {
   const column = document.createElement('div');
-  column.className = 'col';
+  column.className = 'col d-flex';
 
   const card = document.createElement('a');
   card.className = 'card card-cover overflow-hidden text-bg-dark rounded-3 shadow-lg text-decoration-none';
   card.href = article.url || '#';
   card.target = '_blank';
   card.rel = 'noopener noreferrer';
-  card.style.maxWidth = '420px';
+  card.style.width = '100%';
   card.style.minHeight = '350px';
   if (article.urlToImage) {
     card.style.backgroundImage = `linear-gradient(rgb(0 0 0 / 35%), rgb(0 0 0 / 75%)), url("${article.urlToImage}")`;
